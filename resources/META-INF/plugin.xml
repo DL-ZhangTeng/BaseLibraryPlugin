@@ -1,0 +1,43 @@
+<idea-plugin>
+    <id>com.github.duoluo9.BaseLibraryPlugin.plugin.id</id>
+    <name>BaseLibraryPlugin</name>
+    <version>1.0</version>
+    <vendor email="763263311@qq.com" url="https://github.com/duoluo9">duoluo9</vendor>
+
+    <description><![CDATA[BaseLibraryPlugin<br>]]></description>
+
+    <change-notes><![CDATA[
+      1.0<br>
+    ]]>
+    </change-notes>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html for description -->
+    <idea-version since-build="173.0"/>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <action id="BaseActivityAction" class="com.github.duoluo9.BaseLibraryPlugin.BaseActivityAction"
+                text="BaseMvpActivityHelper"
+                description="BaseLibrary中的类生成工具">
+            <add-to-group group-id="NewGroup" anchor="first"/>
+        </action>
+        <action id="BaseMvpActivityAction" class="com.github.duoluo9.BaseLibraryPlugin.BaseMvpActivityAction"
+                text="BaseMvpActivityHelper"
+                description="BaseLibrary中的类生成工具">
+            <add-to-group group-id="NewGroup" anchor="first"/>
+        </action>
+        <action id="BaseTitleBarActivityAction" class="com.github.duoluo9.BaseLibraryPlugin.BaseTitleBarActivityAction"
+                text="BaseTitleBarActivityHelper"
+                description="BaseLibrary中的类生成工具">
+            <add-to-group group-id="NewGroup" anchor="first"/>
+        </action>
+    </actions>
+
+</idea-plugin>
