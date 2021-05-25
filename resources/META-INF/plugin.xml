@@ -23,21 +23,26 @@
     </extensions>
 
     <actions>
-        <action id="BaseActivityAction" class="com.github.duoluo9.BaseLibraryPlugin.BaseActivityAction"
-                text="BaseMvpActivityHelper"
-                description="BaseLibrary中的类生成工具">
+        <group id="com.github.duoluo9.BaseLibrary" popup="true" searchable="true"
+               class="com.github.duoluo9.BaseLibraryPlugin.BaseLibraryGroup" text="BaseLibrary"
+               description="BaseLibrary中的类生成工具">
+            <action id="com.github.duoluo9.BaseActivityAction"
+                    class="com.github.duoluo9.BaseLibraryPlugin.BaseActivityAction"
+                    text="BaseMvpActivity"
+                    description="BaseLibrary中BaseActivity的类生成工具">
+            </action>
+            <action id="com.github.duoluo9.BaseMvpActivityAction"
+                    class="com.github.duoluo9.BaseLibraryPlugin.BaseMvpActivityAction"
+                    text="BaseMvpActivity"
+                    description="BaseLibrary中BaseMvpActivity的类生成工具">
+            </action>
+            <action id="com.github.duoluo9.BaseTitleBarActivityAction"
+                    class="com.github.duoluo9.BaseLibraryPlugin.BaseTitleBarActivityAction"
+                    text="BaseTitleBarActivity"
+                    description="BaseLibrary中BaseTitleBarActivity的类生成工具">
+            </action>
             <add-to-group group-id="NewGroup" anchor="first"/>
-        </action>
-        <action id="BaseMvpActivityAction" class="com.github.duoluo9.BaseLibraryPlugin.BaseMvpActivityAction"
-                text="BaseMvpActivityHelper"
-                description="BaseLibrary中的类生成工具">
-            <add-to-group group-id="NewGroup" anchor="first"/>
-        </action>
-        <action id="BaseTitleBarActivityAction" class="com.github.duoluo9.BaseLibraryPlugin.BaseTitleBarActivityAction"
-                text="BaseTitleBarActivityHelper"
-                description="BaseLibrary中的类生成工具">
-            <add-to-group group-id="NewGroup" anchor="first"/>
-        </action>
+        </group>
     </actions>
 
 </idea-plugin>
