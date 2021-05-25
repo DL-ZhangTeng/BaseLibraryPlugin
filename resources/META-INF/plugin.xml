@@ -28,7 +28,7 @@
                description="BaseLibrary中的类生成工具">
             <action id="com.github.duoluo9.BaseActivityAction"
                     class="com.github.duoluo9.BaseLibraryPlugin.BaseActivityAction"
-                    text="BaseMvpActivity"
+                    text="BaseActivity"
                     description="BaseLibrary中BaseActivity的类生成工具">
             </action>
             <action id="com.github.duoluo9.BaseMvpActivityAction"

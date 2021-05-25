@@ -3,24 +3,22 @@ package com.github.duoluo9.BaseLibraryPlugin;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class MyDialog extends JDialog {
+public class BaseTitleBarActivityDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTextField textField1;
     private JRadioButton radioButton1;
-    private JRadioButton radioButton2;
-    private JRadioButton radioButton3;
 
     private DialogCallBack mCallBack;
 
-    public MyDialog(DialogCallBack callBack) {
+    public BaseTitleBarActivityDialog(DialogCallBack callBack) {
         this.mCallBack = callBack;
-        setTitle("Mvp Create Helper");
+        setTitle("BaseTitleBarActivityDialog");
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        setSize(300, 150);
+        setSize(480, 150);
         setLocationRelativeTo(null);
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -50,7 +48,7 @@ public class MyDialog extends JDialog {
 
     private void onOK() {
         if (null != mCallBack) {
-            mCallBack.ok(textField1.getText().trim(), radioButton1.isSelected(), radioButton2.isSelected(), radioButton3.isSelected());
+            mCallBack.ok(textField1.getText().trim(), radioButton1.isSelected());
         }
         dispose();
     }
@@ -60,6 +58,6 @@ public class MyDialog extends JDialog {
     }
 
     public interface DialogCallBack {
-        void ok(String pageName, boolean needActivity, boolean needFragment, boolean isKotlin);
+        void ok(String pageName,  boolean isKotlin);
     }
 }
