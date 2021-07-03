@@ -36,6 +36,11 @@
                     text="BaseMvpActivity"
                     description="BaseLibrary中BaseMvpActivity的类生成工具">
             </action>
+            <action id="com.github.duoluo9.BaseLibraryPlugin.BaseMvpFragmentAction"
+                    class="com.github.duoluo9.BaseLibraryPlugin.BaseMvpFragmentAction"
+                    text="BaseMvpFragment"
+                    description="BaseLibrary中BaseMvpFragment的类生成工具">
+            </action>
             <action id="com.github.duoluo9.BaseTitleBarActivityAction"
                     class="com.github.duoluo9.BaseLibraryPlugin.BaseTitleBarActivityAction"
                     text="BaseTitleBarActivity"
