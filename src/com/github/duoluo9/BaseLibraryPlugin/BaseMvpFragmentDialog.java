@@ -8,6 +8,7 @@ public class BaseMvpFragmentDialog extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTextField textField1;
+    private JRadioButton radioButton1;
 
     private DialogCallBack mCallBack;
 
@@ -47,7 +48,7 @@ public class BaseMvpFragmentDialog extends JDialog {
 
     private void onOK() {
         if (null != mCallBack) {
-            mCallBack.ok(textField1.getText().trim());
+            mCallBack.ok(textField1.getText().trim(), radioButton1.isSelected());
         }
         dispose();
     }
@@ -57,6 +58,6 @@ public class BaseMvpFragmentDialog extends JDialog {
     }
 
     public interface DialogCallBack {
-        void ok(String pageName);
+        void ok(String pageName, boolean isContract);
     }
 }

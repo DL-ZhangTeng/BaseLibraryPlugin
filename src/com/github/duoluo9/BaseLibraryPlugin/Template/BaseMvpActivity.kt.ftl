@@ -3,10 +3,10 @@ package ${packageName}.activity
 import android.os.Bundle
 
 import com.zhangteng.base.base.BaseMvpActivity
-import ${packageName}.mvp.model.imodel.I${pageName}Model
-import ${packageName}.mvp.presenter.ipresenter.I${pageName}Presenter
+import ${packageName}.mvp.${modelPath}.I${pageName}Model
+import ${packageName}.mvp.${presenterPath}.I${pageName}Presenter
 import ${packageName}.mvp.presenter.${pageName}Presenter
-import ${packageName}.mvp.view.I${pageName}View
+import ${packageName}.mvp.${viewPath}.I${pageName}View
 import ${packageName}.R
 
 class ${pageName}Activity : BaseMvpActivity<I${pageName}View, I${pageName}Model, I${pageName}Presenter>() , I${pageName}View {

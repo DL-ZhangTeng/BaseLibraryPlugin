@@ -24,10 +24,11 @@ public class BaseMvpActivityAction extends AnAction {
     //包名
     private String packageName = "";
     private String pageName;
+    private boolean isContract;
 
 
     private enum CodeType {
-        Activity, View, IPresenter, Presenter, IMODEL, MODEL, Activity_LAYOUT
+        Activity, View, IPresenter, Presenter, IModel, Model, Activity_Layout, Contract
     }
 
     @Override
@@ -52,8 +53,9 @@ public class BaseMvpActivityAction extends AnAction {
      * 初始化Dialog
      */
     private void init() {
-        BaseMvpActivityDialog myDialog = new BaseMvpActivityDialog((pageName) -> {
+        BaseMvpActivityDialog myDialog = new BaseMvpActivityDialog((pageName, isContract) -> {
             BaseMvpActivityAction.this.pageName = pageName;
+            BaseMvpActivityAction.this.isContract = isContract;
             createClassFiles();
         });
         myDialog.setVisible(true);
@@ -65,12 +67,16 @@ public class BaseMvpActivityAction extends AnAction {
      */
     private void createClassFiles() {
         createClassFile(CodeType.Activity);
-        createClassFile(CodeType.Activity_LAYOUT);
-        createClassFile(CodeType.View);
-        createClassFile(CodeType.IPresenter);
+        createClassFile(CodeType.Activity_Layout);
+        if (isContract) {
+            createClassFile(CodeType.Contract);
+        } else {
+            createClassFile(CodeType.View);
+            createClassFile(CodeType.IPresenter);
+            createClassFile(CodeType.IModel);
+        }
         createClassFile(CodeType.Presenter);
-        createClassFile(CodeType.IMODEL);
-        createClassFile(CodeType.MODEL);
+        createClassFile(CodeType.Model);
     }
 
     /**
@@ -88,6 +94,12 @@ public class BaseMvpActivityAction extends AnAction {
                 content = ReadTemplateFile(fileName);
                 content = dealTemplateContent(content);
                 writeToFile(content, appPath + "activity", pageName + "Activity.kt");
+                break;
+            case Contract:
+                fileName = "MainContract.kt.ftl";
+                content = ReadTemplateFile(fileName);
+                content = dealTemplateContent(content);
+                writeToFile(content, appPath + "mvp/contract", "I" + pageName + "Contract.kt");
                 break;
             case View:
                 fileName = "IMainView.kt.ftl";
@@ -107,19 +119,19 @@ public class BaseMvpActivityAction extends AnAction {
                 content = dealTemplateContent(content);
                 writeToFile(content, appPath + "mvp/presenter", pageName + "Presenter.kt");
                 break;
-            case IMODEL:
+            case IModel:
                 fileName = "IMainModel.kt.ftl";
                 content = ReadTemplateFile(fileName);
                 content = dealTemplateContent(content);
                 writeToFile(content, appPath + "mvp/model/imodel", "I" + pageName + "Model.kt");
                 break;
-            case MODEL:
+            case Model:
                 fileName = "MainModel.kt.ftl";
                 content = ReadTemplateFile(fileName);
                 content = dealTemplateContent(content);
                 writeToFile(content, appPath + "mvp/model", pageName + "Model.kt");
                 break;
-            case Activity_LAYOUT:
+            case Activity_Layout:
                 fileName = "simple.xml.ftl";
                 content = ReadTemplateFile(fileName);
                 writeToFile(content, getAppResPath(), "activity_" + pageName.toLowerCase() + ".xml");
@@ -161,6 +173,16 @@ public class BaseMvpActivityAction extends AnAction {
         }
         if (content.contains("${activityLayoutName}")) {
             content = content.replace("${activityLayoutName}", "activity_" + pageName.toLowerCase());
+        }
+
+        if (content.contains("${modelPath}")) {
+            content = content.replace("${modelPath}", isContract ? "contract." + pageName + "Contract" : "model.imodel");
+        }
+        if (content.contains("${presenterPath}")) {
+            content = content.replace("${presenterPath}", isContract ? "contract." + pageName + "Contract" : "presenter.ipresenter");
+        }
+        if (content.contains("${viewPath}")) {
+            content = content.replace("${viewPath}", isContract ? "contract." + pageName + "Contract" : "view");
         }
         return content;
     }

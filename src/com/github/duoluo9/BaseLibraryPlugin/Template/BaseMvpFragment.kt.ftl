@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.zhangteng.base.base.BaseMvpFragment
-import ${packageName}.mvp.model.imodel.I${pageName}Model
-import ${packageName}.mvp.presenter.ipresenter.I${pageName}Presenter
+import ${packageName}.mvp.${modelPath}.I${pageName}Model
+import ${packageName}.mvp.${presenterPath}.I${pageName}Presenter
 import ${packageName}.mvp.presenter.${pageName}Presenter
-import ${packageName}.mvp.view.I${pageName}View
+import ${packageName}.mvp.${viewPath}.I${pageName}View
 import ${packageName}.R
 
 class ${pageName}Fragment : BaseMvpFragment<I${pageName}View, I${pageName}Model, I${pageName}Presenter>() , I${pageName}View {
