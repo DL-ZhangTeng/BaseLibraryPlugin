@@ -19,6 +19,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class BaseTitleBarActivityAction extends AnAction {
@@ -75,7 +76,16 @@ public class BaseTitleBarActivityAction extends AnAction {
 
         String layoutFileName = "simple.xml.ftl";
         String layoutContent = ReadTemplateFile(layoutFileName);
-        writeToFile(layoutContent, getAppResPath(), "activity_" + pageName.toLowerCase() + ".xml");
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("activity");
+        ArrayList<String> activityChildNames = splitByUpperCase(pageName);
+        for (String activityChildName : activityChildNames) {
+            stringBuilder.append("_").append(activityChildName.toLowerCase());
+        }
+        stringBuilder.append(".xml");
+
+        writeToFile(layoutContent, getAppResPath(), stringBuilder.toString());
         editManifest(pageName + "Activity");
     }
 
@@ -112,7 +122,15 @@ public class BaseTitleBarActivityAction extends AnAction {
             content = content.replace("${packageName}", packageName);
         }
         if (content.contains("${activityLayoutName}")) {
-            content = content.replace("${activityLayoutName}", "activity_" + pageName.toLowerCase());
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("activity");
+            ArrayList<String> activityChildNames = splitByUpperCase(pageName);
+            for (String activityChildName : activityChildNames) {
+                stringBuilder.append("_").append(activityChildName.toLowerCase());
+            }
+
+            content = content.replace("${activityLayoutName}", stringBuilder.toString());
         }
         return content;
     }
@@ -259,5 +277,22 @@ public class BaseTitleBarActivityAction extends AnAction {
         } catch (TransformerException | FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 根据大写字母拆分数组
+     */
+    private ArrayList<String> splitByUpperCase(String str) {
+        ArrayList<String> rs = new ArrayList<String>();
+        int index = 0;
+        int len = str.length();
+        for (int i = 1; i < len; i++) {
+            if (Character.isUpperCase(str.charAt(i))) {
+                rs.add(str.substring(index, i));
+                index = i;
+            }
+        }
+        rs.add(str.substring(index, len));
+        return rs;
     }
 }

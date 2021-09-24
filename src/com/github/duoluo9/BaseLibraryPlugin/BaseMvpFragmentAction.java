@@ -14,6 +14,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class BaseMvpFragmentAction extends AnAction {
@@ -133,7 +134,16 @@ public class BaseMvpFragmentAction extends AnAction {
             case Fragment_Layout:
                 fileName = "simple.xml.ftl";
                 content = ReadTemplateFile(fileName);
-                writeToFile(content, getAppResPath(), "fragment_" + pageName.toLowerCase() + ".xml");
+
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("fragment");
+                ArrayList<String> activityChildNames = splitByUpperCase(pageName);
+                for (String activityChildName : activityChildNames) {
+                    stringBuilder.append("_").append(activityChildName.toLowerCase());
+                }
+                stringBuilder.append(".xml");
+
+                writeToFile(content, getAppResPath(), stringBuilder.toString());
                 break;
         }
     }
@@ -171,7 +181,15 @@ public class BaseMvpFragmentAction extends AnAction {
             content = content.replace("${packageName}", packageName);
         }
         if (content.contains("${fragmentLayoutName}")) {
-            content = content.replace("${fragmentLayoutName}", "fragment_" + pageName.toLowerCase());
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("fragment");
+            ArrayList<String> activityChildNames = splitByUpperCase(pageName);
+            for (String activityChildName : activityChildNames) {
+                stringBuilder.append("_").append(activityChildName.toLowerCase());
+            }
+
+            content = content.replace("${fragmentLayoutName}", stringBuilder.toString());
         }
 
         if (content.contains("${modelPath}")) {
@@ -290,5 +308,22 @@ public class BaseMvpFragmentAction extends AnAction {
             e.printStackTrace();
         }
         return package_name;
+    }
+
+    /**
+     * 根据大写字母拆分数组
+     */
+    private ArrayList<String> splitByUpperCase(String str) {
+        ArrayList<String> rs = new ArrayList<String>();
+        int index = 0;
+        int len = str.length();
+        for (int i = 1; i < len; i++) {
+            if (Character.isUpperCase(str.charAt(i))) {
+                rs.add(str.substring(index, i));
+                index = i;
+            }
+        }
+        rs.add(str.substring(index, len));
+        return rs;
     }
 }

@@ -19,6 +19,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class BaseMvpActivityAction extends AnAction {
@@ -140,7 +141,16 @@ public class BaseMvpActivityAction extends AnAction {
             case Activity_Layout:
                 fileName = "simple.xml.ftl";
                 content = ReadTemplateFile(fileName);
-                writeToFile(content, getAppResPath(), "activity_" + pageName.toLowerCase() + ".xml");
+
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("activity");
+                ArrayList<String> activityChildNames = splitByUpperCase(pageName);
+                for (String activityChildName : activityChildNames) {
+                    stringBuilder.append("_").append(activityChildName.toLowerCase());
+                }
+                stringBuilder.append(".xml");
+
+                writeToFile(content, getAppResPath(), stringBuilder.toString());
                 break;
         }
     }
@@ -178,7 +188,15 @@ public class BaseMvpActivityAction extends AnAction {
             content = content.replace("${packageName}", packageName);
         }
         if (content.contains("${activityLayoutName}")) {
-            content = content.replace("${activityLayoutName}", "activity_" + pageName.toLowerCase());
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("activity");
+            ArrayList<String> activityChildNames = splitByUpperCase(pageName);
+            for (String activityChildName : activityChildNames) {
+                stringBuilder.append("_").append(activityChildName.toLowerCase());
+            }
+
+            content = content.replace("${activityLayoutName}", stringBuilder.toString());
         }
 
         if (content.contains("${modelPath}")) {
@@ -335,5 +353,22 @@ public class BaseMvpActivityAction extends AnAction {
         } catch (TransformerException | FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 根据大写字母拆分数组
+     */
+    private ArrayList<String> splitByUpperCase(String str) {
+        ArrayList<String> rs = new ArrayList<String>();
+        int index = 0;
+        int len = str.length();
+        for (int i = 1; i < len; i++) {
+            if (Character.isUpperCase(str.charAt(i))) {
+                rs.add(str.substring(index, i));
+                index = i;
+            }
+        }
+        rs.add(str.substring(index, len));
+        return rs;
     }
 }
