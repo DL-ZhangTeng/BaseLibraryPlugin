@@ -12,6 +12,11 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,6 +76,7 @@ public class BaseTitleBarActivityAction extends AnAction {
         String layoutFileName = "simple.xml.ftl";
         String layoutContent = ReadTemplateFile(layoutFileName);
         writeToFile(layoutContent, getAppResPath(), "activity_" + pageName.toLowerCase() + ".xml");
+        editManifest(pageName + "Activity");
     }
 
     /**
@@ -215,5 +221,43 @@ public class BaseTitleBarActivityAction extends AnAction {
             e.printStackTrace();
         }
         return package_name;
+    }
+
+    private void editManifest(String name) {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+        try {
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(project.getBasePath() + "/" + module.getName().substring(module.getName().indexOf(".") + 1) + "/src/main/AndroidManifest.xml");
+            NodeList nodeList1 = doc.getElementsByTagName("application");
+
+            for (int j = 0; j < nodeList1.getLength(); ++j) {
+                Node node = nodeList1.item(j);
+                Element application = (Element) node;
+                Element a = doc.createElement("activity");
+                a.setAttribute("android:name", this.packageName + ".activity." + name);
+                application.appendChild(a);
+            }
+
+            saveXml(project.getBasePath() + "/" + module.getName().substring(module.getName().indexOf(".") + 1) + "/src/main/AndroidManifest.xml", doc);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void saveXml(String fileName, Document doc) {
+        TransformerFactory transFactory = TransformerFactory.newInstance();
+        try {
+            Transformer transformer = transFactory.newTransformer();
+            transformer.setOutputProperty("indent", "yes");
+            DOMSource source = new DOMSource();
+            source.setNode(doc);
+            StreamResult result = new StreamResult();
+            result.setOutputStream(new FileOutputStream(fileName));
+            transformer.transform(source, result);
+        } catch (TransformerException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
