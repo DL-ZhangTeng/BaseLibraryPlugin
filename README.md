@@ -1,5 +1,5 @@
 工欲善其事必先利其器，使用插件能够极大的提高开发效率。AndroidStudio基于IntelliJ平台，因此，开发AndroidStudio插件其本质只是开发IntelliJ平台的插件。
-下文以模板创建BaseActivity为例 [MVPArmsPlugin](https://github.com/duoluo9/MVPArmsPlugin) &  [BaseLibraryPlugin](https://github.com/duoluo9/BaseLibraryPlugin) ：
+下文以模板创建BaseActivity为例 [MVPArmsPlugin](https://github.com/DL-ZhangTeng/MVPArmsPlugin) &  [BaseLibraryPlugin](https://github.com/DL-ZhangTeng/BaseLibraryPlugin) ：
 # 1、下载IntelliJ IDEA
 IntelliJ IDEA集成了插件开发环境，下载后可以直接拿来开发插件。IntelliJ IDEA下载地址如下：
  [https://www.jetbrains.com/idea/](https://www.jetbrains.com/idea/)
